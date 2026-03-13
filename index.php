@@ -31,7 +31,7 @@
                     ? file_get_contents("wishes/{$kid}.txt") 
                     : "Happy Birthday Dad! Love, " . ucfirst($kid);
                 
-                // All kids now have the same format with picture
+                // ALL KIDS NOW USE THE SAME FORMAT - including Ben!
                 echo "<div id='tab-{$kid}' class='tab-content {$active_class}'>";
                 echo "<div class='kid-card'>";
                 echo "<h2>" . ucfirst($kid) . "</h2>";
@@ -48,6 +48,7 @@
                 
                 echo "<p class='wish-text'>{$wish_text}</p>";
                 
+                echo "</div>";
                 echo "</div>";
             }
             ?>
