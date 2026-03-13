@@ -30,8 +30,7 @@
                 $wish_text = file_exists("wishes/{$kid}.txt") 
                     ? file_get_contents("wishes/{$kid}.txt") 
                     : "Happy Birthday Dad! Love, " . ucfirst($kid);
-                
-                // ALL KIDS NOW USE THE SAME FORMAT - including Ben!
+        
                 echo "<div id='tab-{$kid}' class='tab-content {$active_class}'>";
                 echo "<div class='kid-card'>";
                 echo "<h2>" . ucfirst($kid) . "</h2>";
@@ -67,7 +66,7 @@
                     }
                 }
                 
-                // If no image or video, check for PDF
+                // check for PDF
                 if (!$file_found) {
                     foreach ($pdf_formats as $format) {
                         $file_path = "images/{$kid}.{$format}";
@@ -79,7 +78,7 @@
                     }
                 }
                 
-                // If no file found, show placeholder
+                // placeholder
                 if (!$file_found) {
                     $initial = strtoupper(substr($kid, 0, 1));
                     echo "<div class='art-placeholder'>{$initial}'s Art</div>";
