@@ -36,23 +36,46 @@
                 echo "<div class='kid-card'>";
                 echo "<h2>" . ucfirst($kid) . "</h2>";
                 
-                // Check for image in multiple formats
-                $image_formats = ['jpg', 'jpeg', 'png', 'gif', 'pdf'];
+                // Check for file in multiple formats
+                $image_formats = ['jpg', 'jpeg', 'png', 'gif'];
+                $video_formats = ['mp4', 'webm', 'mov', 'avi'];
+                $pdf_formats = ['pdf'];
                 $file_found = false;
                 
+                // Check for images first
                 foreach ($image_formats as $format) {
-                    $image_path = "images/{$kid}.{$format}";
-                    if (file_exists($image_path)) {
+                    $file_path = "images/{$kid}.{$format}";
+                    if (file_exists($file_path)) {
                         $file_found = true;
-                        
-                        // Handle PDF differently
-                        if ($format == 'pdf') {
-                            echo "<embed src='{$image_path}' type='application/pdf' width='100%' height='400px' class='kid-art-pdf'>";
-                        } else {
-                            // It's an image
-                            echo "<img src='{$image_path}' alt='Art from {$kid}' class='kid-art'>";
+                        echo "<img src='{$file_path}' alt='Art from {$kid}' class='kid-art'>";
+                        break;
+                    }
+                }
+                
+                // If no image, check for videos
+                if (!$file_found) {
+                    foreach ($video_formats as $format) {
+                        $file_path = "images/{$kid}.{$format}";
+                        if (file_exists($file_path)) {
+                            $file_found = true;
+                            echo "<video controls class='kid-video'>";
+                            echo "<source src='{$file_path}' type='video/{$format}'>";
+                            echo "Your browser doesn't support video playback.";
+                            echo "</video>";
+                            break;
                         }
-                        break; // Stop checking once we find a file
+                    }
+                }
+                
+                // If no image or video, check for PDF
+                if (!$file_found) {
+                    foreach ($pdf_formats as $format) {
+                        $file_path = "images/{$kid}.{$format}";
+                        if (file_exists($file_path)) {
+                            $file_found = true;
+                            echo "<embed src='{$file_path}' type='application/pdf' width='100%' height='400px' class='kid-art-pdf'>";
+                            break;
+                        }
                     }
                 }
                 
