@@ -17,8 +17,7 @@
             <button class="tab-link active" data-kid="ben">Ben</button>
             <button class="tab-link" data-kid="nhim">Nhím</button>
             <button class="tab-link" data-kid="mint">Mint</button>
-            <button class="tab-link" data-kid="aca">Aca</button>
-            <button class="tab-link" data-kid="adam">Adam</button>
+            <button class="tab-link" data-kid="aca">Aca và Adam</button>
         </div>
 
         <div class="content-area">
