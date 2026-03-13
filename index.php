@@ -36,12 +36,28 @@
                 echo "<div class='kid-card'>";
                 echo "<h2>" . ucfirst($kid) . "</h2>";
                 
-                // Check if image exists
-                $image_path = "images/{$kid}.jpg";
-                if (file_exists($image_path)) {
-                    echo "<img src='{$image_path}' alt='Art from {$kid}' class='kid-art'>";
-                } else {
-                    // Fallback placeholder with initials
+                // Check for image in multiple formats
+                $image_formats = ['jpg', 'jpeg', 'png', 'gif', 'pdf'];
+                $file_found = false;
+                
+                foreach ($image_formats as $format) {
+                    $image_path = "images/{$kid}.{$format}";
+                    if (file_exists($image_path)) {
+                        $file_found = true;
+                        
+                        // Handle PDF differently
+                        if ($format == 'pdf') {
+                            echo "<embed src='{$image_path}' type='application/pdf' width='100%' height='400px' class='kid-art-pdf'>";
+                        } else {
+                            // It's an image
+                            echo "<img src='{$image_path}' alt='Art from {$kid}' class='kid-art'>";
+                        }
+                        break; // Stop checking once we find a file
+                    }
+                }
+                
+                // If no file found, show placeholder
+                if (!$file_found) {
                     $initial = strtoupper(substr($kid, 0, 1));
                     echo "<div class='art-placeholder'>{$initial}'s Art</div>";
                 }
