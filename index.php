@@ -48,12 +48,6 @@
                 
                 echo "<p class='wish-text'>{$wish_text}</p>";
                 
-                // Add special note for Ben about creating the website
-                if ($kid === 'ben') {
-                    echo "<p class='note'>✨ I made this website just for you! ✨</p>";
-                }
-                
-                echo "</div>";
                 echo "</div>";
             }
             ?>

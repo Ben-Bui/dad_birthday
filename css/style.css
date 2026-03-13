@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     min-height: 100vh;
     padding: 20px;
 }
@@ -27,14 +27,14 @@ header {
 }
 
 h1 {
-    color: #333;
+    color: #1e3c72;
     font-size: 2.5em;
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .subtitle {
-    color: #666;
+    color: #2a5298;
     font-size: 1.2em;
 }
 
@@ -49,12 +49,12 @@ h1 {
 
 .tab-link {
     padding: 12px 24px;
-    background: #f0f0f0;
+    background: #e6f0ff;
     border: none;
     border-radius: 50px;
     font-size: 1.1em;
     font-weight: 600;
-    color: #555;
+    color: #1e3c72;
     cursor: pointer;
     transition: all 0.3s ease;
     flex: 0 1 auto;
@@ -62,14 +62,14 @@ h1 {
 }
 
 .tab-link:hover {
-    background: #e0e0e0;
+    background: #cce4ff;
     transform: translateY(-2px);
 }
 
 .tab-link.active {
-    background: #667eea;
+    background: #1e3c72;
     color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);
 }
 
 /* Content Area */
@@ -98,11 +98,11 @@ h1 {
     padding: 20px;
     background: white;
     border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 5px 20px rgba(30, 60, 114, 0.1);
 }
 
 h2 {
-    color: #444;
+    color: #1e3c72;
     margin-bottom: 20px;
     font-size: 2em;
 }
@@ -112,7 +112,7 @@ h2 {
     max-height: 300px;
     border-radius: 15px;
     margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
     object-fit: cover;
 }
 
@@ -120,7 +120,7 @@ h2 {
     width: 200px;
     height: 200px;
     margin: 0 auto 20px;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -128,23 +128,23 @@ h2 {
     color: white;
     font-size: 1.5em;
     font-weight: bold;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
 }
 
 .wish-text {
     font-size: 1.3em;
-    color: #555;
+    color: #1e3c72;
     line-height: 1.6;
     margin: 20px 0;
     font-style: italic;
 }
 
 .note {
-    color: #667eea;
+    color: #1e3c72;
     font-size: 1.1em;
     margin-top: 20px;
     padding: 10px;
-    background: #f8f9ff;
+    background: #e6f0ff;
     border-radius: 10px;
 }
 
@@ -152,8 +152,8 @@ footer {
     text-align: center;
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid #eee;
-    color: #888;
+    border-top: 1px solid #cce4ff;
+    color: #2a5298;
 }
 
 /* Mobile Responsive */
