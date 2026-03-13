@@ -31,40 +31,36 @@
                     ? file_get_contents("wishes/{$kid}.txt") 
                     : "Happy Birthday Dad! Love, " . ucfirst($kid);
                 
-                // Special message for Ben (no art)
-                if ($kid === 'ben') {
-                    echo "<div id='tab-{$kid}' class='tab-content {$active_class}'>";
-                    echo "<div class='ben-special'>";
-                    echo "<h2>From Ben</h2>";
-                    echo "<p class='wish-text'>{$wish_text}</p>";
-                    echo "<p class='note'>✨ I made this website just for you! ✨</p>";
-                    echo "</div>";
-                    echo "</div>";
+                // All kids now have the same format with picture
+                echo "<div id='tab-{$kid}' class='tab-content {$active_class}'>";
+                echo "<div class='kid-card'>";
+                echo "<h2>" . ucfirst($kid) . "</h2>";
+                
+                // Check if image exists
+                $image_path = "images/{$kid}.jpg";
+                if (file_exists($image_path)) {
+                    echo "<img src='{$image_path}' alt='Art from {$kid}' class='kid-art'>";
                 } else {
-                    echo "<div id='tab-{$kid}' class='tab-content {$active_class}'>";
-                    echo "<div class='kid-card'>";
-                    echo "<h2>" . ucfirst($kid) . "</h2>";
-                    
-                    // Check if image exists
-                    $image_path = "images/{$kid}.jpg";
-                    if (file_exists($image_path)) {
-                        echo "<img src='{$image_path}' alt='Art from {$kid}' class='kid-art'>";
-                    } else {
-                        // Fallback placeholder with initials
-                        $initial = strtoupper(substr($kid, 0, 1));
-                        echo "<div class='art-placeholder'>{$initial}'s Art</div>";
-                    }
-                    
-                    echo "<p class='wish-text'>{$wish_text}</p>";
-                    echo "</div>";
-                    echo "</div>";
+                    // Fallback placeholder with initials
+                    $initial = strtoupper(substr($kid, 0, 1));
+                    echo "<div class='art-placeholder'>{$initial}'s Art</div>";
                 }
+                
+                echo "<p class='wish-text'>{$wish_text}</p>";
+                
+                // Add special note for Ben about creating the website
+                if ($kid === 'ben') {
+                    echo "<p class='note'>✨ I made this website just for you! ✨</p>";
+                }
+                
+                echo "</div>";
+                echo "</div>";
             }
             ?>
         </div>
         
         <footer>
-            <p>Made with ❤️ by Ben</p>
+            <p>Made with love, Ben Bui</p>
         </footer>
     </div>
 
