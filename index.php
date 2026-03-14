@@ -1,356 +1,419 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Dad!</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎂 Happy Birthday Dad! 🎂</h1>
-            <p class="subtitle">With love from all of us</p>
+    <div class="site-wrapper">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="container">
+                <h1>🎂 HAPPY BIRTHDAY DAD! 🎂</h1>
+                <p class="header-subtitle">We hope you have a wonderful birthday</p>
+            </div>
         </header>
 
-        <div class="tabs">
-            <button class="tab-link active" data-kid="ben">Ben</button>
-            <button class="tab-link" data-kid="nhim">Nhím</button>
-            <button class="tab-link" data-kid="mint">Mint</button>
-            <button class="tab-link" data-kid="aca">Aca và Adam</button>
-        </div>
+        <!-- Main Navigation Tabs -->
+        <nav class="main-nav">
+            <div class="container">
+                <ul class="nav-tabs">
+                    <li class="nav-tab active" data-tab="about">📖 About Dad</li>
+                    <li class="nav-tab" data-tab="wishes">💝 Birthday Wishes</li>
+                    <li class="nav-tab" data-tab="gallery">📸 Gallery</li>
+                </ul>
+            </div>
+        </nav>
 
-        <div class="content-area">
-            <?php
-            $kids = ['ben', 'nhim', 'mint', 'aca', 'adam'];
-            
-            foreach ($kids as $kid) {
-                $active_class = ($kid === 'ben') ? 'active' : '';
-                $wish_text = file_exists("wishes/{$kid}.txt") 
-                    ? file_get_contents("wishes/{$kid}.txt") 
-                    : "Happy Birthday Dad! Love, " . ucfirst($kid);
-        
-                echo "<div id='tab-{$kid}' class='tab-content {$active_class}'>";
-                echo "<div class='kid-card'>";
-                echo "<h2>" . ucfirst($kid) . "</h2>";
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="container">
                 
-                // Check for file in multiple formats
-                $image_formats = ['jpg', 'jpeg', 'png', 'gif'];
-                $video_formats = ['mp4', 'webm', 'mov', 'avi'];
-                $pdf_formats = ['pdf'];
-                $file_found = false;
-                
-                // Check for images first
-                foreach ($image_formats as $format) {
-                    $file_path = "images/{$kid}.{$format}";
-                    if (file_exists($file_path)) {
-                        $file_found = true;
-                        echo "<img src='{$file_path}' alt='Art from {$kid}' class='kid-art'>";
-                        break;
-                    }
-                }
-                
-                // If no image, check for videos
-                if (!$file_found) {
-                    foreach ($video_formats as $format) {
-                        $file_path = "images/{$kid}.{$format}";
-                        if (file_exists($file_path)) {
-                            $file_found = true;
-                            echo "<video controls class='kid-video'>";
-                            echo "<source src='{$file_path}' type='video/{$format}'>";
-                            echo "Your browser doesn't support video playback.";
-                            echo "</video>";
-                            break;
+            <!-- ABOUT DAD TAB -->
+            <div id="tab-about" class="tab-pane active">
+                <div class="about-section">
+                    <div class="about-header">
+                        <h2>About Dad</h2>
+                        <div class="age-badge"> Who is he?</div>
+                    </div>
+                    
+                    <div class="about-content">
+                        <?php
+                        $about_text = file_exists("wishes/about.txt") 
+                            ? file_get_contents("wishes/about.txt") 
+                            : "A wonderful dad to 5 amazing kids: Ben, Nhím, Mint, Aca, and Adam. This page celebrates his special day!";
+                        echo "<p class='about-text'>$about_text</p>";
+                        ?>
+                    </div>
+
+                    <!-- Collapsible Sections - Dynamic from about folder -->
+                    <div class="about-collapsible-container">
+                        
+                        <?php
+                        // Function to load about section content
+                        function loadAboutSection($num) {
+                            $file = "about/section{$num}.txt";
+                            return file_exists($file) ? file_get_contents($file) : '';
                         }
-                    }
-                }
-                
-                // check for PDF
-                if (!$file_found) {
-                    foreach ($pdf_formats as $format) {
-                        $file_path = "images/{$kid}.{$format}";
-                        if (file_exists($file_path)) {
-                            $file_found = true;
-                            echo "<embed src='{$file_path}' type='application/pdf' width='100%' height='400px' class='kid-art-pdf'>";
-                            break;
+                        
+                        // TRY to load from config if it exists, otherwise use defaults
+                        $sections = [];
+                        
+                        // Check if config file exists
+                        if (file_exists('config/sections.php')) {
+                            include_once 'config/sections.php';
+                            if (isset($about_sections) && !empty($about_sections)) {
+                                // Use the config sections
+                                foreach ($about_sections as $id => $section) {
+                                    if ($section['active']) {
+                                        $sections[$id] = [
+                                            'icon' => isset($section['icon']) ? $section['icon'] : '📝',
+                                            'title' => $section['title']
+                                        ];
+                                    }
+                                }
+                            }
                         }
-                    }
-                }
-                
-                // placeholder
-                if (!$file_found) {
-                    $initial = strtoupper(substr($kid, 0, 1));
-                    echo "<div class='art-placeholder'>{$initial}'s Art</div>";
-                }
-                
-                echo "<p class='wish-text'>{$wish_text}</p>";
-                
-                echo "</div>";
-                echo "</div>";
-            }
-            ?>
-        </div>
-        
-        <footer>
-            <p>Made with love, Ben Bui</p>
+                        
+                        // If no config sections, use defaults
+                        if (empty($sections)) {
+                            $sections = [
+                                1 => ['icon' => '📜', 'title' => 'Xuất thân và con đường ban đầu'],
+                                2 => ['icon' => '❤️', 'title' => 'Đời sống tình cảm và hôn nhân'],
+                                3 => ['icon' => '👨‍👧‍👦', 'title' => 'Vai trò người cha'],
+                                4 => ['icon' => '🏡', 'title' => 'Cách ông nhìn về gia đình'],
+                                5 => ['icon' => '🌟', 'title' => 'Hình dung chung về con người ông'],
+                                6 => ['icon' => '🔍', 'title' => 'Phân tích tính cách sâu hơn']
+                            ];
+                        }
+                        
+                        $first = true;
+                        foreach ($sections as $num => $section):
+                            $content = loadAboutSection($num);
+                            if (empty($content)) continue; // Skip empty sections
+                        ?>
+                        
+                        <div class="collapsible-section">
+                            <button class="collapsible-header <?php echo $first ? 'active' : ''; ?>">
+                                <span class="header-icon"><?php echo $section['icon']; ?></span>
+                                <span class="header-title"><?php echo htmlspecialchars($section['title']); ?></span>
+                                <span class="header-toggle"><?php echo $first ? '−' : '+'; ?></span>
+                            </button>
+                            <div class="collapsible-content" style="display: <?php echo $first ? 'block' : 'none'; ?>;">
+                                <div class="section-content">
+                                    <?php echo nl2br(htmlspecialchars($content)); ?>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <?php 
+                            $first = false;
+                        endforeach; 
+                        ?>
+                    </div>
+
+                    <!-- Dad's Photo Gallery Preview -->
+                    <div class="dad-gallery-preview">
+                        <h3>Moments with Dad</h3>
+                        <div class="gallery-preview-grid">
+                            <?php
+                            $dad_images = glob("images/dad/*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+                            $dad_videos = glob("images/dad/*.{mp4,webm,mov}", GLOB_BRACE);
+                            $dad_media = array_merge($dad_images, $dad_videos);
+                            $dad_media = array_slice($dad_media, 0, 6);
+                            
+                            foreach ($dad_media as $media) {
+                                $extension = strtolower(pathinfo($media, PATHINFO_EXTENSION));
+                                $video_extensions = ['mp4', 'webm', 'mov'];
+                                
+                                echo "<div class='preview-item'>";
+                                if (in_array($extension, $video_extensions)) {
+                                    echo "<video src='$media' class='preview-media' muted></video>";
+                                    echo "<span class='video-badge'>🎥</span>";
+                                } else {
+                                    echo "<img src='$media' class='preview-media'>";
+                                }
+                                echo "</div>";
+                            }
+                            ?>
+                        </div>
+                        <p class='gallery-hint'>View all in <span class='gallery-link-trigger' data-tab='gallery'>Gallery →</span></p>
+                    </div>
+                </div>
+            </div>
+
+                <!-- WISHES TAB (with kid sub-tabs) -->
+                <div id="tab-wishes" class="tab-pane">
+                    <div class="wishes-section">
+                        <h2>Birthday Wishes</h2>
+                        
+                        <!-- Kid Sub-Navigation -->
+                        <div class="kid-subnav">
+                            <ul class="kid-tabs">
+                                <li class="kid-tab active" data-kid="ben">Ben</li>
+                                <li class="kid-tab" data-kid="nhim">Nhím</li>
+                                <li class="kid-tab" data-kid="mint">Mint</li>
+                                <li class="kid-tab" data-kid="aca">Aca & Adam</li>
+                            </ul>
+                        </div>
+
+                        <!-- Kid Wish Content -->
+                        <div class="kid-wish-container">
+                            <?php
+                            $kids = [
+                                'ben' => 'Ben',
+                                'nhim' => 'Nhím', 
+                                'mint' => 'Mint',
+                                'aca' => 'Aca & Adam'
+                            ];
+                            
+                            foreach ($kids as $kid_key => $kid_name) {
+                                $active_class = ($kid_key === 'ben') ? 'active-kid' : '';
+                                $wish_text = file_exists("wishes/{$kid_key}.txt") 
+                                    ? file_get_contents("wishes/{$kid_key}.txt") 
+                                    : "Happy Birthday Dad! Love, " . $kid_name;
+                                
+                                echo "<div id='kid-{$kid_key}' class='kid-wish-content {$active_class}'>";
+                                
+                                // Check for media in kid's folder
+                                $kid_folder = ($kid_key === 'aca') ? 'aca' : $kid_key;
+                                $kid_images = glob("images/{$kid_folder}/*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+                                $kid_videos = glob("images/{$kid_folder}/*.{mp4,webm,mov}", GLOB_BRACE);
+                                
+                                // Display first image or video
+                                if (!empty($kid_images)) {
+                                    echo "<img src='{$kid_images[0]}' alt='{$kid_name}' class='kid-featured-image'>";
+                                } elseif (!empty($kid_videos)) {
+                                    echo "<video controls class='kid-featured-video'><source src='{$kid_videos[0]}'></video>";
+                                } else {
+                                    $initial = strtoupper(substr($kid_key, 0, 1));
+                                    echo "<div class='kid-placeholder'><span class='initial'>{$initial}</span></div>";
+                                }
+                                
+                                echo "<div class='kid-message'>";
+                                echo "<h3>From {$kid_name}</h3>";
+                                echo "<p class='wish-message'>{$wish_text}</p>";
+                                echo "</div>";
+                                
+                                // Show additional media if available
+                                $all_media = array_merge($kid_images, $kid_videos);
+                                if (count($all_media) > 1) {
+                                    echo "<div class='kid-media-grid'>";
+                                    echo "<h4>More from {$kid_name}</h4>";
+                                    echo "<div class='media-thumbnails'>";
+                                    foreach (array_slice($all_media, 1, 3) as $media) {
+                                        $ext = strtolower(pathinfo($media, PATHINFO_EXTENSION));
+                                        if (in_array($ext, ['mp4', 'webm', 'mov'])) {
+                                            echo "<video src='$media' class='media-thumb' muted></video>";
+                                        } else {
+                                            echo "<img src='$media' class='media-thumb'>";
+                                        }
+                                    }
+                                    echo "</div>";
+                                    echo "</div>";
+                                }
+                                
+                                echo "</div>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- GALLERY TAB (Instagram style) - ONLY Dad's photos -->
+            <div id="tab-gallery" class="tab-pane">
+                <div class="gallery-section">
+                    <h2>Dad's Gallery</h2>
+                    <p class="gallery-subtitle">Special moments with dad</p>
+                    
+                    <div class="gallery-grid">
+                        <?php
+                        // Get ONLY files from the dad folder
+                        $dad_media = glob("images/dad/*.{jpg,jpeg,png,gif,mp4,webm,mov}", GLOB_BRACE);
+                        
+                        if (!empty($dad_media)) {
+                            foreach ($dad_media as $media) {
+                                $extension = strtolower(pathinfo($media, PATHINFO_EXTENSION));
+                                $video_extensions = ['mp4', 'webm', 'mov'];
+                                
+                                echo "<div class='gallery-item' data-src='{$media}'>";
+                                if (in_array($extension, $video_extensions)) {
+                                    echo "<video src='{$media}' class='gallery-media' muted loop></video>";
+                                    echo "<span class='media-badge'>🎥</span>";
+                                } else {
+                                    echo "<img src='{$media}' class='gallery-media'>";
+                                }
+                                echo "<div class='media-caption'>Dad's memories</div>";
+                                echo "</div>";
+                            }
+                        } else {
+                            echo "<p class='no-media'>No gallery images yet. Add photos to the images/dad/ folder.</p>";
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="container">
+                <p>Made with infinite love, Ben Bui</p>
+                <p class="footer-date"><?php echo date('F j, Y'); ?></p>
+                <p style="margin-top: 10px; font-size: 0.9em;">
+                    <a href="edit.php" style="color: #ffd700; text-decoration: none;">🔒 Admin</a>
+                </p>
+            </div>
         </footer>
-    </div>
 
-    <script>
-    // Simple tab switching
-    document.querySelectorAll('.tab-link').forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove active class from all tabs and contents
-            document.querySelectorAll('.tab-link').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            // Add active class to clicked tab
-            button.classList.add('active');
-            
-            // Show corresponding content
-            const kid = button.dataset.kid;
-            document.getElementById(`tab-${kid}`).classList.add('active');
+        <!-- Lightbox Modal for Gallery -->
+        <div id="lightbox" class="lightbox">
+            <span class="close-lightbox">&times;</span>
+            <div class="lightbox-content">
+                <div class="lightbox-media-container"></div>
+                <div class="lightbox-caption"></div>
+            </div>
+            <div class="lightbox-nav">
+                <button class="lightbox-prev">❮</button>
+                <button class="lightbox-next">❯</button>
+            </div>
+        </div>
+
+        <script>
+        // Main tab switching
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                
+                this.classList.add('active');
+                const tabId = this.dataset.tab;
+                document.getElementById(`tab-${tabId}`).classList.add('active');
+            });
         });
-    });
 
-        // 1. CONFETTI EXPLOSION when clicking tabs
-    document.querySelectorAll('.tab-link').forEach(button => {
-        button.addEventListener('click', function(e) {
-            // Create confetti
-            for (let i = 0; i < 20; i++) {
-                createConfetti(e.clientX, e.clientY);
+        // Kid sub-tab switching
+        document.querySelectorAll('.kid-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.kid-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.kid-wish-content').forEach(c => c.classList.remove('active-kid'));
+                
+                this.classList.add('active');
+                const kid = this.dataset.kid;
+                document.getElementById(`kid-${kid}`).classList.add('active-kid');
+            });
+        });
+
+        // Gallery link from About tab
+        document.querySelectorAll('.gallery-link-trigger').forEach(link => {
+            link.addEventListener('click', function() {
+                const targetTab = this.dataset.tab;
+                document.querySelector(`.nav-tab[data-tab="${targetTab}"]`).click();
+            });
+        });
+
+        // Gallery lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxMedia = document.querySelector('.lightbox-media-container');
+        const lightboxCaption = document.querySelector('.lightbox-caption');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        let currentIndex = 0;
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                currentIndex = index;
+                showLightbox(this);
+            });
+        });
+
+        function showLightbox(item) {
+            const src = item.dataset.src;
+            const caption = item.querySelector('.media-caption').textContent;
+            const isVideo = item.querySelector('video') !== null;
+            
+            lightboxMedia.innerHTML = '';
+            if (isVideo) {
+                const video = document.createElement('video');
+                video.src = src;
+                video.controls = true;
+                video.autoplay = true;
+                lightboxMedia.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = src;
+                lightboxMedia.appendChild(img);
+            }
+            
+            lightboxCaption.textContent = caption;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        document.querySelector('.close-lightbox').addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+            lightboxMedia.innerHTML = '';
+        });
+
+        document.querySelector('.lightbox-prev').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+            showLightbox(galleryItems[currentIndex]);
+        });
+
+        document.querySelector('.lightbox-next').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % galleryItems.length;
+            showLightbox(galleryItems[currentIndex]);
+        });
+
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelector('.close-lightbox').click();
+            } else if (e.key === 'ArrowLeft') {
+                document.querySelector('.lightbox-prev').click();
+            } else if (e.key === 'ArrowRight') {
+                document.querySelector('.lightbox-next').click();
             }
         });
-    });
 
-    function createConfetti(x, y) {
-        const colors = ['#ffd700', '#ff6b6b', '#1e3c72', '#2a5298', '#ff8c00', '#ff1493'];
-        const confetti = document.createElement('div');
-        confetti.style.position = 'fixed';
-        confetti.style.left = x + 'px';
-        confetti.style.top = y + 'px';
-        confetti.style.width = '10px';
-        confetti.style.height = '10px';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.borderRadius = '50%';
-        confetti.style.pointerEvents = 'none';
-        confetti.style.zIndex = '9999';
-        confetti.style.animation = `confettiFall ${1 + Math.random()}s linear forwards`;
-        document.body.appendChild(confetti);
+        // Hover play for video thumbnails
+        document.querySelectorAll('.preview-media, .media-thumb, .gallery-media').forEach(media => {
+            if (media.tagName === 'VIDEO') {
+                media.addEventListener('mouseenter', () => media.play());
+                media.addEventListener('mouseleave', () => {
+                    media.pause();
+                    media.currentTime = 0;
+                });
+            }
+        });
         
-        setTimeout(() => confetti.remove(), 2000);
-    }
-
-    // Add keyframe animation for confetti
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes confettiFall {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            100% { transform: translate(${Math.random() * 200 - 100}px, 100vh) rotate(${Math.random() * 360}deg); opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
-
-    // 2. BALLOON POP when clicking images
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('kid-art') || e.target.classList.contains('art-placeholder')) {
-            // Pop sound simulation (vibration if mobile)
-            if (navigator.vibrate) navigator.vibrate(50);
-            
-            // Create pop effect
-            const pop = document.createElement('div');
-            pop.style.position = 'fixed';
-            pop.style.left = e.clientX - 30 + 'px';
-            pop.style.top = e.clientY - 30 + 'px';
-            pop.style.width = '60px';
-            pop.style.height = '60px';
-            pop.style.borderRadius = '50%';
-            pop.style.backgroundColor = 'rgba(255, 215, 0, 0.5)';
-            pop.style.transform = 'scale(0)';
-            pop.style.animation = 'pop 0.3s ease-out forwards';
-            pop.style.pointerEvents = 'none';
-            pop.style.zIndex = '9999';
-            document.body.appendChild(pop);
-            
-            setTimeout(() => pop.remove(), 300);
-        }
-    });
-
-    // Add pop animation
-    style.textContent += `
-        @keyframes pop {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(3); opacity: 0; }
-        }
-    `;
-
-    // 3. RANDOM BIRTHDAY FACTS on hover
-    const birthdayFacts = [
-        "🎂 You're the best dad ever!",
-        "🎈 Another year wiser!",
-        "🎁 Time to party!",
-        "🥳 Happy Birthday!",
-        "✨ Make a wish!",
-        "🎉 Let's celebrate!",
-        "❤️ Loved by all of us!"
-    ];
-
-    let factTimeout;
-    document.querySelector('.container').addEventListener('mouseenter', () => {
-        factTimeout = setTimeout(() => {
-            const fact = birthdayFacts[Math.floor(Math.random() * birthdayFacts.length)];
-            const tooltip = document.createElement('div');
-            tooltip.style.position = 'fixed';
-            tooltip.style.top = '20px';
-            tooltip.style.right = '20px';
-            tooltip.style.backgroundColor = '#ffd700';
-            tooltip.style.color = '#1e3c72';
-            tooltip.style.padding = '15px 25px';
-            tooltip.style.borderRadius = '50px';
-            tooltip.style.fontWeight = 'bold';
-            tooltip.style.boxShadow = '0 10px 20px rgba(0,0,0,0.2)';
-            tooltip.style.animation = 'slideInRight 0.5s ease';
-            tooltip.style.zIndex = '10000';
-            tooltip.textContent = fact;
-            tooltip.id = 'birthdayFact';
-            document.body.appendChild(tooltip);
-            
-            setTimeout(() => {
-                const factElement = document.getElementById('birthdayFact');
-                if (factElement) factElement.remove();
-            }, 3000);
-        }, 2000);
-    });
-
-    document.querySelector('.container').addEventListener('mouseleave', () => {
-        clearTimeout(factTimeout);
-    });
-
-    style.textContent += `
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-    `;
-
-
-    // 6. SURPRISE EGG (click the footer 3 times)
-    let clickCount = 0;
-    document.querySelector('footer').addEventListener('click', () => {
-        clickCount++;
-        if (clickCount === 3) {
-            // Easter egg - play happy birthday song simulation
-            const notes = ['🎵', '🎶', '🎵', '🎶', '🎵'];
-            let i = 0;
-            const interval = setInterval(() => {
-                const note = document.createElement('div');
-                note.textContent = notes[i % notes.length];
-                note.style.position = 'fixed';
-                note.style.left = '50%';
-                note.style.top = '50%';
-                note.style.transform = 'translate(-50%, -50%)';
-                note.style.fontSize = '100px';
-                note.style.opacity = '0.8';
-                note.style.animation = 'notePop 0.5s ease forwards';
-                note.style.zIndex = '10001';
-                document.body.appendChild(note);
+        // Collapsible sections for About page
+        document.querySelectorAll('.collapsible-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const toggle = this.querySelector('.header-toggle');
                 
-                setTimeout(() => note.remove(), 500);
-                i++;
-                
-                if (i >= 10) clearInterval(interval);
-            }, 200);
-            
-            // Show secret message
-            setTimeout(() => {
-                alert('🎉 SURPRISE! You found the secret! Happy Birthday Dad! 🎉');
-            }, 2000);
-            
-            clickCount = 0;
-        }
-    });
-
-    style.textContent += `
-        @keyframes notePop {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-            70% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
-        }
-    `;
-
-    // 7. MAGIC CURSOR TRAIL
-    document.addEventListener('mousemove', (e) => {
-        if (Math.random() > 0.9) { // Only create trail sometimes
-            const trail = document.createElement('div');
-            trail.textContent = ['✨', '⭐', '🌟'][Math.floor(Math.random() * 3)];
-            trail.style.position = 'fixed';
-            trail.style.left = e.clientX + 'px';
-            trail.style.top = e.clientY + 'px';
-            trail.style.fontSize = '20px';
-            trail.style.pointerEvents = 'none';
-            trail.style.animation = 'fadeOut 0.5s forwards';
-            trail.style.zIndex = '9997';
-            document.body.appendChild(trail);
-            
-            setTimeout(() => trail.remove(), 500);
-        }
-    });
-
-    style.textContent += `
-        @keyframes fadeOut {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(2); }
-        }
-    `;
-
-    // 8. SHAKE EFFECT ON MOBILE
-    if (window.DeviceMotionEvent) {
-        window.addEventListener('devicemotion', (event) => {
-            const acceleration = event.accelerationIncludingGravity;
-            if (acceleration && (Math.abs(acceleration.x) > 15 || Math.abs(acceleration.y) > 15)) {
-                // Phone shaken - trigger confetti
-                for (let i = 0; i < 30; i++) {
-                    createConfetti(
-                        Math.random() * window.innerWidth,
-                        Math.random() * window.innerHeight
-                    );
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                    toggle.textContent = '+';
+                    this.classList.remove('active');
+                } else {
+                    content.style.display = 'block';
+                    toggle.textContent = '−';
+                    this.classList.add('active');
                 }
-            }
+            });
         });
-    }
-
-    // 10. BIRTHDAY CANDLES
-    function addCandles() {
-        const candles = document.createElement('div');
-        candles.style.position = 'absolute';
-        candles.style.bottom = '10px';
-        candles.style.left = '0';
-        candles.style.right = '0';
-        candles.style.display = 'flex';
-        candles.style.justifyContent = 'center';
-        candles.style.gap = '10px';
-        candles.style.pointerEvents = 'none';
-        
-        for (let i = 0; i < 5; i++) {
-            const candle = document.createElement('div');
-            candle.innerHTML = '🕯️';
-            candle.style.fontSize = '30px';
-            candle.style.animation = `flicker ${0.5 + Math.random()}s infinite alternate`;
-            candles.appendChild(candle);
-        }
-        
-        document.querySelector('.container').appendChild(candles);
-    }
-
-    style.textContent += `
-        @keyframes flicker {
-            0% { opacity: 0.8; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.1); text-shadow: 0 0 10px #ffd700; }
-        }
-    `;
-
-    addCandles();
-
-    </script>
+        </script>
+    </div>
 </body>
 </html>

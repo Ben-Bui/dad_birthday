@@ -1,858 +1,931 @@
+/* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Animated confetti background */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    font-family: 'Open Sans', sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.site-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 0 40px rgba(0,0,0,0.1);
     min-height: 100vh;
-    padding: 20px;
-    position: relative;
-    overflow-x: hidden;
-}
-
-/* Floating confetti */
-body::before {
-    content: "🎉🎊🎈🎂🎁🥳";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    font-size: 40px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: flex-start;
-    opacity: 0.15;
-    pointer-events: none;
-    animation: confetti 10s linear infinite;
-    z-index: 0;
-}
-
-@keyframes confetti {
-    0% { transform: translateY(-100%) rotate(0deg); }
-    100% { transform: translateY(100vh) rotate(360deg); }
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.98);
-    border-radius: 30px;
-    padding: 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border: 3px solid rgba(255, 215, 0, 0.5);
-    position: relative;
-    z-index: 1;
+    padding: 0 20px;
 }
 
-/* Birthday banner with gradient and animation */
-header {
-    text-align: center;
-    margin-bottom: 40px;
-    background: linear-gradient(135deg, #fff9e6, #fff);
-    padding: 20px;
-    border-radius: 60px 60px 30px 30px;
-    box-shadow: 0 10px 30px rgba(255,215,0,0.3);
-    border: 2px dashed #ffd700;
-    position: relative;
-    overflow: hidden;
-}
-
-header::before {
-    content: "🎂🎂🎂";
-    position: absolute;
-    top: -10px;
-    left: -20px;
-    font-size: 60px;
-    opacity: 0.2;
-    transform: rotate(-15deg);
-    animation: spin 10s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotate(-15deg) rotate(0deg); }
-    to { transform: rotate(-15deg) rotate(360deg); }
-}
-
-h1 {
-    background: linear-gradient(45deg, #1e3c72, #2a5298, #ff6b6b, #ffd700, #1e3c72);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 300% 300%;
-    animation: rainbow 5s ease infinite;
-    font-size: 3em;
-    margin-bottom: 10px;
-    text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
-    position: relative;
-    display: inline-block;
-}
-
-h1::before, h1::after {
-    content: "✨";
-    position: absolute;
-    font-size: 40px;
-    animation: twinkle 1.5s ease infinite;
-}
-
-h1::before {
-    left: -30px;
-    top: -10px;
-}
-
-h1::after {
-    right: -30px;
-    bottom: -10px;
-    animation-delay: 0.5s;
-}
-
-@keyframes rainbow {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-@keyframes twinkle {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.3); }
-}
-
-.subtitle {
-    color: #1e3c72;
-    font-size: 1.4em;
-    font-weight: 600;
-    background: rgba(255, 215, 0, 0.2);
-    display: inline-block;
-    padding: 10px 30px;
-    border-radius: 50px;
-    border: 2px solid #ffd700;
-    box-shadow: 0 5px 0 #b8860b;
-}
-
-/* Fun tabs with emojis */
-.tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 40px;
-    justify-content: center;
-}
-
-.tab-link {
-    padding: 15px 30px;
-    background: linear-gradient(145deg, #fff, #f0f8ff);
-    border: 3px solid transparent;
-    border-radius: 60px;
-    font-size: 1.2em;
-    font-weight: 700;
-    color: #1e3c72;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    flex: 0 1 auto;
-    min-width: 100px;
-    box-shadow: 0 8px 0 #b0c4de;
-    position: relative;
-    overflow: hidden;
-}
-
-.tab-link::before {
-    content: "🎂";
-    position: absolute;
-    left: -30px;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0;
-    transition: 0.3s;
-    font-size: 20px;
-}
-
-.tab-link:hover::before {
-    left: 10px;
-    opacity: 1;
-}
-
-.tab-link:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 13px 0 #b0c4de;
-    padding-left: 45px;
-    background: linear-gradient(145deg, #ffd700, #ffed4e);
-}
-
-.tab-link.active {
-    background: linear-gradient(145deg, #1e3c72, #2a5298);
+/* Main Header */
+.main-header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     color: white;
-    box-shadow: 0 8px 0 #0a1a2e, 0 0 20px #ffd700;
-    border: 3px solid #ffd700;
-    transform: scale(1.05);
-}
-
-
-
-/* Content Area */
-.content-area {
-    min-height: 500px;
-    position: relative;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 40px;
-    padding: 10px;
-}
-
-.tab-content {
-    display: none;
-    animation: partyFade 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.tab-content.active {
-    display: block;
-}
-
-@keyframes partyFade {
-    0% { 
-        opacity: 0; 
-        transform: scale(0.8) rotate(-2deg);
-    }
-    50% {
-        transform: scale(1.02) rotate(1deg);
-    }
-    100% { 
-        opacity: 1; 
-        transform: scale(1) rotate(0deg);
-    }
-}
-
-/* Kid Cards - More exciting */
-.kid-card {
+    padding: 50px 0;
     text-align: center;
-    padding: 30px;
-    background: linear-gradient(145deg, #ffffff, #fff9f0);
-    border-radius: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 0 0 5px #ffd700 inset;
-    border: 3px dashed #1e3c72;
+    border-bottom: 5px solid #ffd700;
+}
+
+.main-header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.2em;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+}
+
+.header-subtitle {
+    font-size: 1.3em;
+    opacity: 0.95;
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Main Navigation */
+.main-nav {
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.nav-tabs {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    gap: 30px;
+}
+
+.nav-tab {
+    padding: 18px 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.2em;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
+    border-bottom: 3px solid transparent;
 }
 
-.kid-card::before {
-    content: "🎉🎊🎈🎂";
+.nav-tab:hover {
+    color: #1e3c72;
+    background: #f8f9fa;
+}
+
+.nav-tab.active {
+    color: #1e3c72;
+    border-bottom-color: #ffd700;
+}
+
+.nav-tab.active::after {
+    content: '';
     position: absolute;
-    top: -20px;
-    right: -20px;
-    font-size: 80px;
-    opacity: 0.2;
-    transform: rotate(15deg);
-    pointer-events: none;
-    animation: floatEmoji 4s ease-in-out infinite;
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #ffd700;
 }
 
-.kid-card::after {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
-    animation: shimmer 8s linear infinite;
-    pointer-events: none;
+/* Main Content */
+.main-content {
+    padding: 40px 0;
+    min-height: 500px;
 }
 
-@keyframes shimmer {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.tab-pane {
+    display: none;
 }
 
-@keyframes floatEmoji {
-    0%, 100% { transform: rotate(15deg) translateY(0); }
-    50% { transform: rotate(15deg) translateY(-20px); }
+.tab-pane.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.2em;
     color: #1e3c72;
-    margin-bottom: 25px;
-    font-size: 2.5em;
-    background: linear-gradient(45deg, #ffd700, #ff6b6b);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-    padding: 0 20px;
-    border-bottom: 5px dotted #ffd700;
+    margin-bottom: 20px;
     position: relative;
-}
-
-h2::before {
-    content: "🎁";
-    position: absolute;
-    left: -30px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 30px;
-    animation: bounce 1s ease infinite;
+    padding-bottom: 10px;
 }
 
 h2::after {
-    content: "🎁";
+    content: '';
     position: absolute;
-    right: -30px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 30px;
-    animation: bounce 1s ease infinite 0.3s;
-}
-
-/* Polaroid-style image frames with rotation */
-.kid-art {
-    max-width: 100%;
-    max-height: 350px;
-    border: 10px solid white;
-    border-bottom: 50px solid white;
-    border-radius: 15px 15px 5px 5px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    transition: all 0.4s ease;
-    position: relative;
-    margin-bottom: 20px;
-    transform: rotate(0deg);
-}
-
-.kid-art:hover {
-    transform: rotate(2deg) scale(1.05);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-    border-color: #ffd700;
-}
-
-/* Add caption to polaroid */
-.kid-art {
-    position: relative;
-    display: inline-block;
-}
-
-.kid-art::after {
-    content: "📸 " attr(alt) " " attr(alt);
-    position: absolute;
-    bottom: -35px;
+    bottom: 0;
     left: 0;
-    right: 0;
-    text-align: center;
-    font-family: 'Courier New', monospace;
-    color: #1e3c72;
-    font-size: 1.1em;
-    font-weight: bold;
-    background: rgba(255,255,255,0.8);
-    padding: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    animation: marquee 10s linear infinite;
+    width: 60px;
+    height: 3px;
+    background: #ffd700;
 }
 
-@keyframes marquee {
-    0% { text-indent: 100%; }
-    100% { text-indent: -100%; }
-}
-
-/* Video styling with film strip effect */
-.kid-video {
-    width: 100%;
-    max-height: 350px;
-    border: 5px solid white;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    outline: 5px solid #ffd700;
-    outline-offset: 5px;
-    background: #000;
-    position: relative;
-}
-
-/* PDF styling */
-.kid-art-pdf {
-    width: 100%;
-    height: 400px;
-    border: 5px solid white;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    outline: 5px solid #ffd700;
-    outline-offset: 5px;
-    background: #f5f5f5;
-}
-
-/* Placeholder with party hat and more fun */
-.art-placeholder {
-    width: 250px;
-    height: 250px;
-    margin: 0 auto 30px;
-    background: linear-gradient(135deg, #ffd700, #ff6b6b, #ffd700);
-    background-size: 200% 200%;
-    animation: gradientBG 3s ease infinite;
-    border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 2em;
-    font-weight: bold;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    border: 8px solid white;
-    position: relative;
-}
-
-@keyframes gradientBG {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-.art-placeholder::before {
-    content: "🎉🎊🎈";
-    position: absolute;
-    top: -30px;
-    right: -30px;
-    font-size: 50px;
-    transform: rotate(20deg);
-    animation: wiggle 2s ease-in-out infinite;
-}
-
-.art-placeholder::after {
-    content: "✨";
-    position: absolute;
-    bottom: -20px;
-    left: -20px;
-    font-size: 40px;
-    animation: sparkle 1.5s ease infinite;
-}
-
-@keyframes wiggle {
-    0%, 100% { transform: rotate(20deg); }
-    50% { transform: rotate(40deg); }
-}
-
-@keyframes sparkle {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.3); }
-}
-
-/* Wish text with decorative border */
-.wish-text {
+h3 {
+    font-family: 'Montserrat', sans-serif;
     font-size: 1.5em;
-    color: #1e3c72;
-    line-height: 1.8;
-    margin: 30px 0;
-    font-style: italic;
-    background: rgba(255, 215, 0, 0.1);
-    padding: 20px;
-    border-radius: 80px 20px 80px 20px;
-    border: 3px dashed #ffd700;
-    position: relative;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    color: #2a5298;
+    margin-bottom: 15px;
 }
 
-.wish-text::before {
-    content: "“";
-    font-size: 80px;
-    position: absolute;
-    top: -20px;
-    left: 10px;
-    color: #ffd700;
-    opacity: 0.5;
+h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    color: #444;
+    margin-bottom: 10px;
 }
 
-.wish-text::after {
-    content: "”";
-    font-size: 80px;
-    position: absolute;
-    bottom: -40px;
-    right: 10px;
-    color: #ffd700;
-    opacity: 0.5;
+/* ABOUT TAB */
+.about-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
 }
 
-/* Ben's special note with more flair */
-.note {
-    color: #fff;
-    font-size: 1.3em;
-    margin-top: 30px;
-    padding: 15px;
-    background: linear-gradient(45deg, #1e3c72, #2a5298, #ff6b6b);
-    background-size: 200% 200%;
-    animation: gradientMove 3s ease infinite;
-    border-radius: 50px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 0 4px #ffd700;
-    position: relative;
-    overflow: hidden;
-}
-
-@keyframes gradientMove {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-.note::before {
-    content: "✨🎉✨";
-    position: absolute;
-    top: 0;
-    left: -50px;
-    right: 0;
-    bottom: 0;
+.about-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    opacity: 0.3;
-    animation: slide 3s linear infinite;
-    pointer-events: none;
-}
-
-@keyframes slide {
-    0% { left: -50px; }
-    100% { left: 100%; }
-}
-
-/* Festive footer */
-footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px;
-    background: linear-gradient(90deg, #ffd700, #ffed4e, #ffd700);
-    color: #1e3c72;
-    font-weight: bold;
-    font-size: 1.3em;
-    border-radius: 60px;
-    box-shadow: 0 10px 0 #b8860b;
-    position: relative;
-    overflow: hidden;
-}
-
-footer::before {
-    content: "❤️🎂❤️";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    font-size: 20px;
-    opacity: 0.3;
-    animation: heartBeat 1s ease infinite;
-}
-
-@keyframes heartBeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-/* Mobile Responsive - Even better on mobile */
-@media (max-width: 600px) {
-    .container {
-        padding: 20px;
-    }
-    
-    h1 {
-        font-size: 2em;
-    }
-    
-    h1::before, h1::after {
-        font-size: 25px;
-    }
-    
-    .tabs {
-        gap: 8px;
-    }
-    
-    .tab-link {
-        padding: 10px 15px;
-        font-size: 1em;
-        min-width: 70px;
-    }
-    
-    .kid-art {
-        border-bottom-width: 40px;
-        max-height: 250px;
-    }
-    
-    .kid-art::after {
-        bottom: -30px;
-        font-size: 0.8em;
-    }
-    
-    .art-placeholder {
-        width: 180px;
-        height: 180px;
-        font-size: 1.5em;
-    }
-    
-    .wish-text {
-        font-size: 1.2em;
-        padding: 15px;
-    }
-    
-    .kid-video {
-        max-height: 250px;
-    }
-    
-    .kid-art-pdf {
-        height: 300px;
-    }
-    
-    h2::before, h2::after {
-        font-size: 20px;
-    }
-}
-
-/* Print styles */
-@media print {
-    body {
-        background: white;
-        padding: 0;
-    }
-    
-    body::before, 
-    .kid-card::before, 
-    .note::before,
-    footer::before {
-        display: none;
-    }
-    
-    .container {
-        box-shadow: none;
-        padding: 20px;
-        border: 2px solid #1e3c72;
-    }
-    
-    .tabs, footer {
-        display: none;
-    }
-    
-    .tab-content {
-        display: block !important;
-        page-break-after: always;
-    }
-    /* Fix horizontal scrolling */
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-    position: relative;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    min-height: 100vh;
-    padding: 20px;
-    position: relative;
-    overflow-x: hidden; /* This prevents horizontal scroll */
-    width: 100%;
-}
-
-/* Make sure container doesn't overflow */
-.container {
-    max-width: 900px;
-    width: 100%; /* Ensure it takes full width but not more */
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.98);
-    border-radius: 30px;
-    padding: 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border: 3px solid rgba(255, 215, 0, 0.5);
-    position: relative;
-    z-index: 1;
-    box-sizing: border-box; /* Important: includes padding in width calculation */
-}
-
-/* Fix for any overflowing elements */
-.tabs {
-    display: flex;
+    margin-bottom: 25px;
     flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 40px;
-    justify-content: center;
-    width: 100%; /* Ensure tabs container doesn't overflow */
-    overflow: hidden; /* Hide any overflow */
 }
 
-.tab-link {
-    padding: 15px 30px;
-    background: linear-gradient(145deg, #fff, #f0f8ff);
-    border: 3px solid transparent;
-    border-radius: 60px;
-    font-size: 1.2em;
-    font-weight: 700;
+.age-badge {
+    background: #ffd700;
     color: #1e3c72;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    flex: 0 1 auto; /* Don't grow, can shrink */
-    min-width: 100px;
-    max-width: calc(50% - 10px); /* Prevent tabs from being too wide */
-    box-shadow: 0 8px 0 #b0c4de;
-    position: relative;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.2em;
+    box-shadow: 0 3px 0 #b8860b;
+}
+
+.about-text {
+    font-size: 1.3em;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 5px solid #ffd700;
+}
+
+.dad-gallery-preview h3 {
+    margin-bottom: 20px;
+}
+
+.gallery-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.preview-item {
+    aspect-ratio: 1;
+    border-radius: 8px;
     overflow: hidden;
-    white-space: nowrap; /* Keep text on one line */
-    text-overflow: ellipsis; /* Add ... if text overflows */
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
 }
 
-/* Fix images and videos */
-.kid-art, .kid-video, .kid-art-pdf {
-    max-width: 100%; /* Never exceed container width */
-    height: auto; /* Maintain aspect ratio */
-    width: 100%; /* Take full width but not more */
-    object-fit: contain; /* Fit within bounds */
+.preview-item:hover {
+    transform: scale(1.05);
 }
 
-/* Fix placeholder */
-.art-placeholder {
-    width: 250px;
-    max-width: 100%; /* Don't exceed container */
-    height: 250px;
-    max-height: 250px;
-    margin: 0 auto 30px;
-    background: linear-gradient(135deg, #ffd700, #ff6b6b, #ffd700);
-    background-size: 200% 200%;
-    animation: gradientBG 3s ease infinite;
-    border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%;
+.preview-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.8em;
+}
+
+.gallery-hint {
+    text-align: right;
+    color: #666;
+    font-style: italic;
+}
+
+.gallery-link-trigger {
+    color: #1e3c72;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.gallery-link-trigger:hover {
+    color: #ffd700;
+}
+
+/* WISHES TAB */
+.wishes-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+/* Kid Sub-navigation */
+.kid-subnav {
+    margin: 30px 0 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.kid-tabs {
+    display: flex;
+    list-style: none;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.kid-tab {
+    padding: 12px 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px 8px 0 0;
+    background: #f5f5f5;
+    margin-right: 5px;
+}
+
+.kid-tab:hover {
+    background: #e8e8e8;
+    color: #1e3c72;
+}
+
+.kid-tab.active {
+    background: #1e3c72;
+    color: white;
+}
+
+/* Kid Wish Content */
+.kid-wish-container {
+    min-height: 400px;
+    padding: 20px 0;
+}
+
+.kid-wish-content {
+    display: none;
+}
+
+.kid-wish-content.active-kid {
+    display: block;
+    animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.kid-featured-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.kid-featured-video {
+    width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: #000;
+}
+
+.kid-placeholder {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.kid-placeholder .initial {
+    font-size: 5em;
     color: white;
-    font-size: 2em;
-    font-weight: bold;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    border: 8px solid white;
+    font-weight: 700;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.kid-message {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.kid-message h3 {
+    color: #1e3c72;
+    margin-bottom: 15px;
+}
+
+.wish-message {
+    font-size: 1.3em;
+    line-height: 1.8;
+    color: #555;
+    font-style: italic;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px dashed #ffd700;
+}
+
+/* Kid Media Grid */
+.kid-media-grid {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.kid-media-grid h4 {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.media-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.media-thumb {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.media-thumb:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* GALLERY TAB */
+.gallery-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.gallery-subtitle {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.gallery-item {
     position: relative;
-    box-sizing: border-box;
-}
-
-/* Fix any pseudo-elements that might overflow */
-.tab-link::before,
-.tab-link:hover::before,
-.kid-card::before,
-.kid-card::after {
-    max-width: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
     overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
-/* Fix for floating confetti */
-body::before {
-    content: "🎉🎊🎈🎂🎁🥳";
+.gallery-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.gallery-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.media-badge {
     position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    z-index: 2;
+}
+
+.media-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    padding: 15px 10px 10px;
+    font-size: 0.9em;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .media-caption {
+    transform: translateY(0);
+}
+
+/* Lightbox Modal */
+.lightbox {
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    font-size: 40px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: flex-start;
-    opacity: 0.15;
-    pointer-events: none;
-    animation: confetti 10s linear infinite;
-    z-index: 0;
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
+    background: rgba(0,0,0,0.95);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Mobile specific fixes */
-@media (max-width: 600px) {
-    body {
-        padding: 10px; /* Reduce padding on mobile */
+.lightbox.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.lightbox-content {
+    max-width: 90vw;
+    max-height: 80vh;
+    position: relative;
+}
+
+.lightbox-media-container {
+    max-width: 100%;
+    max-height: 70vh;
+}
+
+.lightbox-media-container img,
+.lightbox-media-container video {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+.lightbox-caption {
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+}
+
+.close-lightbox {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+.close-lightbox:hover {
+    color: #ffd700;
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.lightbox-prev,
+.lightbox-next {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: #ffd700;
+    color: #1e3c72;
+}
+
+/* Footer */
+.site-footer {
+    background: #1a2a4f;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    border-top: 5px solid #ffd700;
+    margin-top: 40px;
+}
+
+.site-footer p {
+    margin: 5px 0;
+    font-size: 1.1em;
+}
+
+.footer-date {
+    color: #ffd700;
+    font-size: 0.9em;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .main-header h1 {
+        font-size: 2.2em;
     }
     
-    .container {
-        padding: 20px;
-        width: 100%;
-        overflow-x: hidden; /* Extra safety */
+    .header-subtitle {
+        font-size: 1.1em;
     }
     
-    .tabs {
-        gap: 8px;
-        flex-wrap: wrap;
+    .nav-tabs {
+        gap: 10px;
+    }
+    
+    .nav-tab {
+        padding: 12px 15px;
+        font-size: 1em;
+    }
+    
+    .gallery-preview-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .kid-tabs {
         justify-content: center;
     }
     
-    .tab-link {
-        padding: 10px 15px;
-        font-size: 1em;
-        min-width: 70px;
-        max-width: calc(50% - 5px); /* Two tabs per row max */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    .kid-tab {
+        padding: 8px 15px;
+        font-size: 0.9em;
     }
     
-    /* Fix for "Aca và Adam" long text */
-    .tab-link[data-kid="aca"] {
-        font-size: 0.9em; /* Slightly smaller for long names */
-        padding: 10px 10px;
-    }
-    
-    h1 {
-        font-size: 2em;
-        word-break: break-word; /* Prevent long words from breaking layout */
-    }
-    
-    /* Ensure images don't overflow */
-    .kid-art {
-        max-height: 250px;
-        width: 100%;
-        object-fit: cover;
-    }
-    
-    .kid-art::after {
-        bottom: -30px;
-        font-size: 0.8em;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-    }
-    
-    .art-placeholder {
-        width: 180px;
-        height: 180px;
-        font-size: 1.5em;
-    }
-    
-    /* Fix any fixed position elements */
-    [style*="position: fixed"] {
-        max-width: 100vw;
-        overflow: hidden;
+    .about-header {
+        flex-direction: column;
+        align-items: start;
     }
 }
 
-    /* Extra small devices */
-    @media (max-width: 380px) {
-        .tab-link {
-            font-size: 0.85em;
-            padding: 8px 12px;
-            min-width: 60px;
-        }
-        
-        h1 {
-            font-size: 1.6em;
-        }
-        
-        h2 {
-            font-size: 1.8em;
-        }
-        
-        .wish-text {
-            font-size: 1em;
-        }
+@media (max-width: 480px) {
+    .main-header {
+        padding: 30px 0;
     }
-
-    /* Fix for the "Aca và Adam" specific case */
-    .tab-link[data-kid="aca"] {
-        position: relative;
+    
+    .main-header h1 {
+        font-size: 1.8em;
     }
+    
+    .nav-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .nav-tab {
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .kid-tabs {
+        flex-direction: column;
+    }
+    
+    .kid-tab {
+        text-align: center;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .media-thumbnails {
+        grid-template-columns: 1fr;
+    }
+    
+    .lightbox-prev,
+    .lightbox-next {
+        padding: 10px 15px;
+        font-size: 18px;
+    }
+}
 
-    /* Ensure no element causes horizontal scroll */
-    * {
-        max-width: 100vw;
-        box-sizing: border-box;
+/* Loading States */
+.loading {
+    text-align: center;
+    padding: 50px;
+    color: #999;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+/* PC/Laptop specific fixes */
+@media (min-width: 1024px) {
+    /* Fix for featured images on PC */
+    .kid-featured-image {
+        max-height: 500px;
+        width: auto; /* Allow image to maintain aspect ratio */
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        object-fit: contain; /* This ensures the ENTIRE image is visible */
+        background-color: #f0f0f0; /* Light gray background for letterboxing */
+        border: 1px solid #ddd;
+    }
+    
+    /* Fix for featured videos on PC */
+    .kid-featured-video {
+        max-height: 500px;
+        width: auto;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        object-fit: contain;
+        background: #000;
+    }
+    
+    /* Ensure the container doesn't restrict height */
+    .kid-wish-content.active-kid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    /* Center the content better */
+    .kid-message {
+        width: 100%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Make the placeholder a good size */
+    .kid-placeholder {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* For very large screens (1440p and above) */
+@media (min-width: 1440px) {
+    .kid-featured-image,
+    .kid-featured-video {
+        max-height: 600px;
+    }
+}
+
+/* Extra fix for images that are very tall */
+.kid-featured-image {
+    object-fit: contain !important; /* Force contain mode */
+    background-color: #f5f5f5;
+}
+
+/* Fix for the kid-wish container */
+.kid-wish-content {
+    text-align: center;
+}
+
+/* Ensure images don't stretch */
+.kid-featured-image,
+.kid-featured-video {
+    display: block;
+}
+/* Collapsible Sections for About Dad */
+.about-collapsible-container {
+    margin: 30px 0;
+}
+
+.collapsible-section {
+    margin-bottom: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: white;
+}
+
+.collapsible-header {
+    width: 100%;
+    padding: 18px 20px;
+    background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+    border: none;
+    border-left: 5px solid #ffd700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #1e3c72;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.collapsible-header:hover {
+    background: linear-gradient(145deg, #e9ecef, #dee2e6);
+    padding-left: 25px;
+}
+
+.collapsible-header.active {
+    background: linear-gradient(145deg, #1e3c72, #2a5298);
+    color: white;
+    border-left-color: #ffd700;
+}
+
+.collapsible-header.active .header-icon {
+    color: #ffd700;
+}
+
+.header-icon {
+    font-size: 1.4em;
+    min-width: 30px;
+}
+
+.header-title {
+    flex: 1;
+}
+
+.header-toggle {
+    font-size: 1.5em;
+    font-weight: 700;
+    min-width: 30px;
+    text-align: center;
+}
+
+.collapsible-content {
+    display: none;
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+}
+
+.collapsible-content[style*="display: block"] {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-content {
+    line-height: 1.8;
+    color: #444;
+}
+
+.section-content h4 {
+    color: #1e3c72;
+    margin: 20px 0 10px;
+    font-size: 1.2em;
+}
+
+.section-content h4:first-child {
+    margin-top: 0;
+}
+
+.section-content ul {
+    margin: 10px 0 15px 25px;
+}
+
+.section-content li {
+    margin-bottom: 5px;
+}
+
+.section-content .note {
+    background: #fff9e6;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border-left: 4px solid #ffd700;
+    margin: 15px 0;
+    font-style: italic;
+    color: #666;
+}
+
+.quote {
+    background: #f0f8ff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-style: italic;
+    position: relative;
+    border: 1px dashed #1e3c72;
+}
+
+.quote::before {
+    content: '"';
+    font-size: 4em;
+    position: absolute;
+    top: -10px;
+    left: 5px;
+    color: #ffd700;
+    opacity: 0.3;
+    font-family: serif;
+}
+
+.quote-author {
+    display: block;
+    margin-top: 10px;
+    text-align: right;
+    font-weight: 600;
+    color: #1e3c72;
+    font-style: normal;
+}
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 15px 0;
+}
+
+.two-column .column {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.two-column .column h4 {
+    margin-top: 0;
+    color: #2a5298;
+    border-bottom: 2px solid #ffd700;
+    padding-bottom: 8px;
+}
+
+@media (max-width: 600px) {
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+    
+    .collapsible-header {
+        padding: 15px;
+        font-size: 1em;
+    }
+    
+    .header-icon {
+        font-size: 1.2em;
+    }
+    
+    .section-content {
+        font-size: 0.95em;
     }
 }

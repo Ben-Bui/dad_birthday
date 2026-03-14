@@ -1,0 +1,128 @@
+/* Your existing CSS here - keep it exactly the same */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Open Sans', sans-serif; background: #f0f2f5; padding: 20px; }
+
+.admin-container { max-width: 1000px; margin: 0 auto; }
+
+.admin-header {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white; padding: 30px; border-radius: 15px 15px 0 0;
+    position: relative;
+}
+
+.admin-header h1 { font-size: 2em; margin-bottom: 10px; }
+
+.logout-btn {
+    position: absolute; top: 20px; right: 20px;
+    background: #dc3545; color: white; padding: 10px 20px;
+    text-decoration: none; border-radius: 5px;
+}
+
+.admin-nav {
+    background: white; padding: 15px 30px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.admin-nav a {
+    color: #1e3c72; text-decoration: none; padding: 10px 20px;
+    margin-right: 10px; border-radius: 5px; display: inline-block;
+}
+
+.admin-nav a.active { background: #1e3c72; color: white; }
+.admin-nav a:hover:not(.active) { background: #f0f0f0; }
+
+.admin-content {
+    background: white; padding: 30px;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.login-form {
+    max-width: 400px; margin: 100px auto; padding: 30px;
+    background: white; border-radius: 15px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.2); text-align: center;
+}
+
+.login-form h2 { color: #1e3c72; margin-bottom: 20px; }
+.login-form input {
+    width: 100%; padding: 12px; margin-bottom: 15px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+}
+
+.login-form button {
+    background: #1e3c72; color: white; padding: 12px 30px;
+    border: none; border-radius: 8px; font-size: 1.1em;
+    cursor: pointer; width: 100%;
+}
+
+.error { color: #dc3545; margin-bottom: 15px; padding: 10px; background: #f8d7da; border-radius: 5px; }
+.success { color: #28a745; margin-bottom: 20px; padding: 10px; background: #d4edda; border-radius: 5px; }
+
+.section-card {
+    background: #f8f9fa; border-radius: 10px; padding: 20px;
+    margin-bottom: 20px; border-left: 5px solid #ffd700;
+}
+
+.section-header {
+    display: flex; justify-content: space-between;
+    margin-bottom: 15px; padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.section-title { font-size: 1.2em; font-weight: 600; color: #1e3c72; }
+
+.content-textarea {
+    width: 100%; min-height: 200px; padding: 15px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    font-family: 'Open Sans', sans-serif; font-size: 1em;
+    line-height: 1.6; margin-bottom: 15px; resize: vertical;
+}
+
+.save-btn {
+    background: #28a745; color: white; padding: 10px 25px;
+    border: none; border-radius: 5px; font-size: 1em; cursor: pointer;
+}
+
+.add-section-form {
+    background: #e8f4fd; padding: 20px; border-radius: 10px; margin-top: 30px;
+}
+
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+.form-group input { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 5px; }
+
+.settings-table {
+    width: 100%; border-collapse: collapse; margin-bottom: 20px;
+}
+
+.settings-table th {
+    background: #1e3c72; color: white; padding: 12px; text-align: left;
+}
+
+.settings-table td {
+    padding: 12px; border-bottom: 1px solid #e0e0e0;
+}
+
+.settings-table input[type="text"] { width: 100%; padding: 8px; }
+.settings-table input[type="number"] { width: 60px; padding: 8px; }
+
+.delete-btn {
+    background: #dc3545; color: white; padding: 5px 10px;
+    text-decoration: none; border-radius: 3px; font-size: 0.9em;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.nav-links { margin: 20px 0; }
+.nav-links a {
+    color: #1e3c72; text-decoration: none; margin-right: 20px;
+    padding: 5px 10px; background: #f0f0f0; border-radius: 5px;
+}
+
+.order-badge {
+    display: inline-block; width: 30px; height: 30px;
+    background: #ffd700; color: #1e3c72; border-radius: 50%;
+    text-align: center; line-height: 30px; font-weight: bold;
+    margin-right: 10px;
+}
