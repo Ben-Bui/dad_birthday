@@ -1,4 +1,3 @@
-
 <?php
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/php_errors.log');
@@ -22,19 +21,17 @@ function saveSections($sections) {
     $file_path = __DIR__ . '/config/sections.php';
     $content = "<?php\n// Section configurations\n\$about_sections = " . var_export($sections, true) . ";\n\n?>";
     
-    // Debug
     error_log("Attempting to save to: " . $file_path);
     
     $result = file_put_contents($file_path, $content);
     
     if ($result === false) {
         error_log("FAILED to write to sections.php");
-        $_SESSION['debug_error'] = "Failed to write to config file. Check permissions.";
+        return false;
     } else {
         error_log("Successfully wrote " . $result . " bytes to sections.php");
+        return true;
     }
-    
-    return $result !== false;
 }
 
 function getSortedSections($sections) {
@@ -46,33 +43,18 @@ function getSortedSections($sections) {
 }
 // ============ END FUNCTIONS ============
 
-// Load sections with VISUAL DEBUGGING
-$about_sections = [];
+// Load sections from config file - or use defaults if not exists
 $config_file = __DIR__ . '/config/sections.php';
 
-// Create debug array to show on page
-$debug_info = [];
-
-// Check if config directory exists
-$config_dir = __DIR__ . '/config/';
-$debug_info['config_dir_exists'] = file_exists($config_dir) ? 'YES' : 'NO';
-$debug_info['config_dir_writable'] = is_writable($config_dir) ? 'YES' : 'NO';
-
-// Check if config file exists
-$debug_info['config_file_exists'] = file_exists($config_file) ? 'YES' : 'NO';
 if (file_exists($config_file)) {
-    $debug_info['config_file_writable'] = is_writable($config_file) ? 'YES' : 'NO';
-    $debug_info['config_file_size'] = filesize($config_file) . ' bytes';
-    
-    // Include the file
+    // Load existing sections
     include_once $config_file;
-    $debug_info['after_include'] = isset($about_sections) ? 'SET' : 'NOT SET';
-    $debug_info['section_count'] = isset($about_sections) ? count($about_sections) : 0;
-}
-
-// If no sections, create defaults
-if (!isset($about_sections) || !is_array($about_sections) || empty($about_sections)) {
-    $debug_info['using_defaults'] = 'YES';
+    // Make sure $about_sections is set
+    if (!isset($about_sections) || !is_array($about_sections)) {
+        $about_sections = [];
+    }
+} else {
+    // Use defaults if no config file exists
     $about_sections = [
         1 => ['title' => 'Xuất thân và con đường ban đầu', 'active' => true, 'order' => 1],
         2 => ['title' => 'Đời sống tình cảm và hôn nhân', 'active' => true, 'order' => 2],
@@ -81,13 +63,12 @@ if (!isset($about_sections) || !is_array($about_sections) || empty($about_sectio
         5 => ['title' => 'Hình dung chung về con người ông', 'active' => true, 'order' => 5],
         6 => ['title' => 'Phân tích tính cách sâu hơn', 'active' => true, 'order' => 6]
     ];
-    
-    // Try to save defaults
-    $save_result = saveSections($about_sections);
-    $debug_info['save_defaults_result'] = $save_result ? 'SUCCESS' : 'FAILED';
+    // Save defaults to config file
+    saveSections($about_sections);
 }
 
-$debug_info['final_section_count'] = count($about_sections);
+// Debug to see what we loaded
+error_log("Loaded " . count($about_sections) . " sections from config");
 
 // Handle login
 if (isset($_POST['login'])) {
@@ -130,7 +111,9 @@ if (isset($_POST['add_section']) && isset($_SESSION['logged_in'])) {
     
     if (saveSections($about_sections)) {
         file_put_contents(ABOUT_DIR . 'section' . $new_id . '.txt', '');
-        $_SESSION['message'] = 'New section added successfully!';
+        $_SESSION['message'] = '✅ New section added successfully!';
+    } else {
+        $_SESSION['message'] = '❌ Failed to add section - check permissions';
     }
     
     header('Location: edit.php');
@@ -150,7 +133,9 @@ if (isset($_POST['update_settings']) && isset($_SESSION['logged_in'])) {
     $about_sections = getSortedSections($about_sections);
     
     if (saveSections($about_sections)) {
-        $_SESSION['message'] = 'Section settings updated!';
+        $_SESSION['message'] = '✅ Section settings updated!';
+    } else {
+        $_SESSION['message'] = '❌ Failed to update settings';
     }
     
     header('Location: edit.php');
@@ -173,7 +158,9 @@ if (isset($_GET['delete']) && isset($_SESSION['logged_in'])) {
         }
         
         if (saveSections($about_sections)) {
-            $_SESSION['message'] = 'Section deleted!';
+            $_SESSION['message'] = '✅ Section deleted!';
+        } else {
+            $_SESSION['message'] = '❌ Failed to delete section';
         }
     }
     
@@ -197,27 +184,6 @@ $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'content';
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- DEBUG INFO - Remove after fixing -->
-    <div style="background: #f0f0f0; border: 2px solid red; padding: 20px; margin: 20px; font-family: monospace;">
-        <h3 style="color: red;">🔍 DEBUG INFORMATION</h3>
-        <table border="1" cellpadding="5">
-            <?php foreach ($debug_info as $key => $value): ?>
-            <tr>
-                <td><strong><?php echo $key; ?></strong></td>
-                <td><?php echo $value; ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        
-        <h4>Current Sections in Memory:</h4>
-        <pre><?php print_r($about_sections); ?></pre>
-        
-        <h4>Content Files in /about/ folder:</h4>
-        <pre><?php
-        $about_files = glob(ABOUT_DIR . '*.txt');
-        print_r($about_files);
-        ?></pre>
-    </div>
     <?php if (!$isLoggedIn): ?>
         <!-- Login Form -->
         <div class="login-form">
@@ -241,6 +207,7 @@ $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'content';
                 <a href="?tab=content" class="<?php echo $active_tab == 'content' ? 'active' : ''; ?>">📝 Edit Content</a>
                 <a href="?tab=settings" class="<?php echo $active_tab == 'settings' ? 'active' : ''; ?>">⚙️ Section Settings</a>
                 <a href="?tab=add" class="<?php echo $active_tab == 'add' ? 'active' : ''; ?>">➕ Add Section</a>
+                <a href="?tab=media" class="<?php echo $active_tab == 'media' ? 'active' : ''; ?>">📷 Media Manager</a>
                 <a href="index.php" target="_blank">👁️ View Site</a>
             </div>
             
@@ -307,6 +274,143 @@ $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'content';
                             </div>
                             <button type="submit" name="add_section" class="save-btn">➕ Add Section</button>
                         </form>
+                    </div>
+                </div>
+                
+                <!-- Media Manager Tab -->
+                <div class="tab-content <?php echo $active_tab == 'media' ? 'active' : ''; ?>">
+                    <div class="media-section">
+                        <h2>📷 Media Manager</h2>
+                        <p>Upload photos and videos for dad's gallery</p>
+                        
+                        <?php
+                        // Handle file upload
+                        $upload_message = '';
+                        if (isset($_POST['upload_media']) && isset($_SESSION['logged_in'])) {
+                            $target_dir = __DIR__ . '/images/dad/';
+                            
+                            // Create directory if it doesn't exist
+                            if (!file_exists($target_dir)) {
+                                mkdir($target_dir, 0777, true);
+                            }
+                            
+                            $file = $_FILES['media_file'];
+                            $file_name = basename($file['name']);
+                            $target_file = $target_dir . $file_name;
+                            $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                            
+                            // Allowed file types
+                            $allowed_types = ['jpg', 'jpeg', 'png', 'gif', 'mp4', 'webm', 'mov'];
+                            
+                            if (in_array($file_type, $allowed_types)) {
+                                if (move_uploaded_file($file['tmp_name'], $target_file)) {
+                                    $upload_message = '<div class="success">✅ File uploaded successfully: ' . htmlspecialchars($file_name) . '</div>';
+                                } else {
+                                    $upload_message = '<div class="error">❌ Error uploading file</div>';
+                                }
+                            } else {
+                                $upload_message = '<div class="error">❌ Invalid file type. Allowed: ' . implode(', ', $allowed_types) . '</div>';
+                            }
+                        }
+                        
+                        // Handle file deletion
+                        if (isset($_GET['delete_file']) && isset($_SESSION['logged_in'])) {
+                            $file_to_delete = basename($_GET['delete_file']);
+                            $file_path = __DIR__ . '/images/dad/' . $file_to_delete;
+                            
+                            if (file_exists($file_path) && is_file($file_path)) {
+                                if (unlink($file_path)) {
+                                    $upload_message = '<div class="success">✅ File deleted: ' . htmlspecialchars($file_to_delete) . '</div>';
+                                } else {
+                                    $upload_message = '<div class="error">❌ Error deleting file</div>';
+                                }
+                            }
+                        }
+                        
+                        echo $upload_message;
+                        ?>
+                        
+                        <!-- Upload Form -->
+                        <div class="upload-form" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+                            <h3>📤 Upload New Media</h3>
+                            <form method="POST" enctype="multipart/form-data">
+                                <div style="display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap;">
+                                    <div style="flex: 1;">
+                                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Select File:</label>
+                                        <input type="file" name="media_file" required style="padding: 10px; border: 2px solid #e0e0e0; border-radius: 5px; width: 100%;">
+                                    </div>
+                                    <div>
+                                        <button type="submit" name="upload_media" class="save-btn" style="background: #1e3c72;">📤 Upload</button>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 10px; color: #666; font-size: 0.9em;">
+                                    Allowed: JPG, JPEG, PNG, GIF, MP4, WEBM, MOV
+                                </p>
+                            </form>
+                        </div>
+                        
+                        <!-- Media Gallery -->
+                        <h3>📸 Current Gallery Files</h3>
+                        <?php
+                        $media_files = glob(__DIR__ . '/images/dad/*.{jpg,jpeg,png,gif,mp4,webm,mov}', GLOB_BRACE);
+                        
+                        if (empty($media_files)) {
+                            echo '<p class="no-media">No media files yet. Upload some photos or videos!</p>';
+                        } else {
+                            // Separate images and videos for display
+                            $images = [];
+                            $videos = [];
+                            
+                            foreach ($media_files as $file) {
+                                $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                                if (in_array($ext, ['mp4', 'webm', 'mov'])) {
+                                    $videos[] = $file;
+                                } else {
+                                    $images[] = $file;
+                                }
+                            }
+                            
+                            // Display images
+                            if (!empty($images)) {
+                                echo '<h4>📷 Images</h4>';
+                                echo '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px;">';
+                                foreach ($images as $image) {
+                                    $file_name = basename($image);
+                                    $file_url = 'images/dad/' . $file_name;
+                                    echo '<div style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; background: white;">';
+                                    echo '<img src="' . $file_url . '" style="width: 100%; height: 120px; object-fit: cover;">';
+                                    echo '<div style="padding: 8px;">';
+                                    echo '<div style="font-size: 0.8em; overflow: hidden; text-overflow: ellipsis;">' . htmlspecialchars($file_name) . '</div>';
+                                    echo '<div style="margin-top: 5px;">';
+                                    echo '<a href="?tab=media&delete_file=' . urlencode($file_name) . '" class="delete-btn" style="font-size: 0.8em; padding: 3px 8px;" onclick="return confirm(\'Delete this file?\')">🗑️ Delete</a>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                                echo '</div>';
+                            }
+                            
+                            // Display videos
+                            if (!empty($videos)) {
+                                echo '<h4>🎥 Videos</h4>';
+                                echo '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">';
+                                foreach ($videos as $video) {
+                                    $file_name = basename($video);
+                                    $file_url = 'images/dad/' . $file_name;
+                                    echo '<div style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; background: white;">';
+                                    echo '<video src="' . $file_url . '" style="width: 100%; height: 120px; object-fit: cover;" muted></video>';
+                                    echo '<div style="padding: 8px;">';
+                                    echo '<div style="font-size: 0.8em; overflow: hidden; text-overflow: ellipsis;">' . htmlspecialchars($file_name) . '</div>';
+                                    echo '<div style="margin-top: 5px;">';
+                                    echo '<a href="?tab=media&delete_file=' . urlencode($file_name) . '" class="delete-btn" style="font-size: 0.8em; padding: 3px 8px;" onclick="return confirm(\'Delete this file?\')">🗑️ Delete</a>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                                echo '</div>';
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
